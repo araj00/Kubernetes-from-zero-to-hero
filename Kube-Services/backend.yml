@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend-svc
+  # a namespace to create a service in that namespace to maintain organisation, isolation and security
+  namespace: app1-ns
 spec:
   type: ClusterIP
   selector:
@@ -16,6 +18,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deploy
+  namespace: app1-ns
 spec:
   replicas: 3
   selector:
