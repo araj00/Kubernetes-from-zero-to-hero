@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  annotations:
+    kubernetes.io/change-cause: "Initial with nginx release 1.19"
+spec:
+# If you run kubectl run {pod_name} -l app=nginx --image=nginx and then apply this file then extra pods created by deployment from this file will just be 2
+# Because controller will look at the exact labels dictionary value if desired state exists then it will not create any extra on top of it
+  replicas: 3
+  selector:
+   matchLabels:
+  # If you add another key value in selector along with template.metadata.labels then it will create another 3 replicas as now labels consists of two key-value pairs
+    app: nginx
+  #  If you uncomment the below environment key line but keep it in your templatate.metadata.labels then the file will just look for the creation of replicas with labels just app=nginx. Go ahead and try it
+  #  environment: development
+  template:
+    metadata:
+      labels:
+        app: nginx
+        environment: development
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:1.19
+
+# Useful commands
+
+# kubectl run {pod_name} -l app=nginx --image=nginx   ---> To create a pod with labels and specified image imperatively
+# kubectl get deploy {deployment name} -o yaml ---> To see the last configured details and current one deploy data
+# kubectl scale deployment {deploy_name} --replicas={desired number of replicas} ---> To scale the number of replicas in deployments
+# kubectl set image (rs,deployments etc) {deploy_name} {pod_name}={specified image name} --> To change the image inside a pod of replication controller. pod name is given in command to change just the specified container in a pod without affecting others. Scenario example is sidecar container
+# kubectl edit deploy {deploy name} ---> To change the config file inside a vm and apply it there only after changing it
+# If I use kubectl set image (deployment, rc, rs) {object_name} pod-name=image-name then deployment does not rollout these changes to existing pod with updated image; only new pod get the new update. Same applied to RC, and RS
