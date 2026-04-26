@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: na-deploy
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: storage
+                    operator: In
+                    values:
+                    - ssd
+              weight: 10
+            - preference:
+                matchExpressions:
+                  - key: storage
+                    operator: In
+                    values:
+                    - hdd
+              weight: 5
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80

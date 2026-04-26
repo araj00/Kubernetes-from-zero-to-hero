@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp2
+  template:
+    metadata:
+      labels:
+        app: myapp2
+    spec:
+      tolerations:
+      - key: "storage"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "env"
+        operator: "Equal"
+        value: "prod"
+        effect: "NoSchedule"
+      containers:
+      - name: nginx
+        image: nginx
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-deploy
+spec:
+  tolerations:
+  - key: "storage"
+    operator: "Exists"
+    effect: "NoSchedule"
+  - key: "env"
+    operator: "Equal"
+    value: "dev"
+    effect: "NoSchedule"
+  containers:
+  - name: nginx
+    image: nginx
