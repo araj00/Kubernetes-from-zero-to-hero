@@ -1,4 +1,4 @@
-# just copy paste this code into any node into /etc/kubernetes/manifests and node will automatically place the pod using kubelet as a static pod
+# just copy paste this code into any node into /etc/kubernetes/manifests and node will automatically place the pod using kubelet as a static pod. But, ignore the nodename key value as it is used in manual scheduling mainly for trobleshooting or testing a specific node with certain capabilites
 apiVersion: v1
 kind: Pod
 metadata:
