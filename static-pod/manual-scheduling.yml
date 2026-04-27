@@ -1,3 +1,4 @@
+# just copy paste this code into any node into /etc/kubernetes/manifests and node will automatically place the pod using kubelet as a static pod
 apiVersion: v1
 kind: Pod
 metadata:

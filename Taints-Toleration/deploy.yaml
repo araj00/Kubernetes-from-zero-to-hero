@@ -13,6 +13,7 @@ spec:
       labels:
         app: app1
     spec:
+# these toleration will be applied to only those node which have taints defined by command:- kubectl taint nodes {node name} storage=ssd:NoSchedule | storage=ssd:PreferNoSchedule
       tolerations:
         - key: "storage"
           operator: "Equal"
