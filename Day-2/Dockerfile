@@ -12,9 +12,9 @@ RUN pip install flask
 
 EXPOSE 5000
 
-# Defines the default command to start the application in shell mode and then use docker top {container_name}
+# Defines the default command to start the application in shell mode
 # CMD python app.py
 
-
+# Whereas command like below does not execute the command in shell mode and hence can directly handle the signals
 # Uncomment the below command and use docker top {image_name} to see the difference between above command and below one
 CMD ["python", "app.py"]
