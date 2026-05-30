@@ -12,8 +12,8 @@ spec:
    matchLabels:
   # If you add another key value in selector along with template.metadata.labels then it will create another 3 replicas as now labels consists of two key-value pairs
     app: nginx
-  #  If you uncomment the below environment key line but keep it in your templatate.metadata.labels then the file will just look for the creation of replicas with labels just app=nginx. Go ahead and try it
-  #  environment: development
+  #  If you uncomment the below environment key line but keep it in your template.metadata.labels then the file will just look for the creation of replicas with labels just app=nginx. Go ahead and try it
+    environment: development
   template:
     metadata:
       labels:

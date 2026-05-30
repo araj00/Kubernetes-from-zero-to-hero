@@ -14,4 +14,3 @@ spec:
     - name: sidecar-container
       image: nginx
       args: ["sleep", "3600"]
-
