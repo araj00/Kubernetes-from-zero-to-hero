@@ -4,9 +4,12 @@ kind: Pod
 metadata:
   name: my-nginx-2
 spec:
-  nodeName: kind-control-plane
+  nodeName: custom-cluster-worker
   containers:
   - name: nginx
     image: nginx:1.19
     ports:
       - containerPort: 80
+
+# To create a static pod, just ssh into the nodes in production or docker exec in local. Cd into /etc/kubernetes/manifests and create a new yaml file for a pod and exit from that node.
+# kubelet will create the pod automatically and to remove that pod, you have to remove the files from /etc/kubernetes/manifests/file.yaml
