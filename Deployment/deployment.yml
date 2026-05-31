@@ -2,12 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deploy
+  # annotations are just a key value pair which attach the metadata to kubernetes objects and helps to build some information regarding the deployment which later helps to rollout to a specific version
   annotations:
     kubernetes.io/change-cause: "Initial with nginx release 1.19"
 spec:
 # If you run kubectl run {pod_name} -l app=nginx --image=nginx and then apply this file then extra pods created by deployment from this file will just be 2
 # Because controller will look at the exact labels dictionary value if desired state exists then it will not create any extra on top of it
   replicas: 3
+  # selector is used for grouping and selection
   selector:
    matchLabels:
   # If you add another key value in selector along with template.metadata.labels then it will create another 3 replicas as now labels consists of two key-value pairs

@@ -6,22 +6,34 @@ spec:
 # If you run kubectl run {pod_name} -l app=nginx --image=nginx and then apply this file then extra pods created by replicationset from this file will just be 2
 # Because controller will look at the exact labels dictionary value if desired state exists then it will not create any extra on top of it
   replicas: 3
+  # selector is used for grouping and selection
   selector:
    matchExpressions:
   # If you add another key value in selector along with template.metadata.labels then it will create another 3 replicas as now labels consists of two key-value pairs
-    - key: app
-      operator: In
-      values:
-      - nginx
-      - apache
+        - key: app
+          operator: In
+          values:
+            - nginx
+            - apache
+        - key: environment
+          operator: NotIn
+          values:
+            - development
+        - key: tier
+          operator: DoesNotExist
+        - key: level
+          operator: DoesNotExist
 
+  # The operators key include In, NotIn, Exists and DoesNotExist their name reflects its meaning on its own but these operators are useful in using matchexpressions. In, NotIn works on key value whereas Exists and NotExist target the key.
   #  If you uncomment the below environment key line but keep it in your template.metadata.labels then the file will just look for the creation of replicas with labels just app=nginx. Go ahead and try it
   #  environment: development
   template:
     metadata:
       labels:
         app: nginx
-        environment: development
+        environment: production
+         # Do not add a "debug" label here; it will break the selector condition.
+        # level: debug
     spec:
       containers:
         - name: nginx-container

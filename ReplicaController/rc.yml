@@ -6,6 +6,7 @@ spec:
 # If you run kubectl run {pod_name} -l app=nginx --image=nginx and then apply this file then extra pods created by replicascontroller from this file will just be 2
 # Because controller will look at the exact labels dictionary value if desired state exists then it will not create any extra on top of it
   replicas: 3
+  # selector is used for grouping and selection
   selector:
   # If you add another key value in selector along with template.metadata.labels then it will create another 3 replicas as now labels consists of two key-value pairs
    app: nginx
