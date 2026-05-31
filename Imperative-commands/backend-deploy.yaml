@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend-deploy
+  name: backend-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-deploy
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: backend-deploy
+    spec:
+      containers:
+      - image: hashicorp/http-echo
+        name: http-echo
+        ports:
+        - containerPort: 5678
+        args:
+          - "-text=Hello from Backend"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: backend-deploy
+  name: backend-svc
+spec:
+# why ports is a list type?
+# so that we can use different type of protocol like http, https, ftp etc
+# port field is for service port, targetPort is for container port and nodeport is for port on each node
+  ports:
+  - port: 9090
+    protocol: TCP
+    targetPort: 5678
+  selector:
+    app: backend-deploy
+  type: ClusterIP
+status:
+  loadBalancer: {}

@@ -1,0 +1,47 @@
+# You can use imperative commands to store the yaml into a file
+# --dry-run=client is just a command to validate the command locally without calling the api-server of kubernetes
+
+# kubectl create deployment frontend-deploy \
+#   --image=nginx \
+#   --replicas=3 \
+#   --port=80 \
+#   --dry-run=client -o yaml > frontend-deploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend-deploy
+  name: frontend-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend-deploy
+  template:
+    metadata:
+      labels:
+        app: frontend-deploy
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: frontend-deploy
+  name: frontend-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 31000
+  selector:
+    app: frontend-deploy
+  type: NodePort
