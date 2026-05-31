@@ -25,5 +25,8 @@ spec:
           ports:
             - containerPort: 80
 
----
-kubectl taint node kind-worker storage=ssd:NoSchedule
+# If taint helps to segregate the workloads of pods then why there is a namespace? When to use namespace and taints-and-tolerations?
+
+# Taint works on node and toleration works on pod
+
+# kubectl taint node {node-name} storage=ssd:NoSchedule
