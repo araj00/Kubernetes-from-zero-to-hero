@@ -1,3 +1,6 @@
+# First check if the metrics server is installed or not. If not then get into metric-server-api.yaml in limits-and-request folder and apply it
+# To apply this config first get into autoscaler/vertical-pod-autoscaler and then execute ./hack/vpa-up.sh to download the VPA components. Later, to uninstall do ./hack/vpa-down.sh in same folder
+
 apiVersion:  autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
@@ -8,4 +11,8 @@ spec:
     kind:       Deployment
     name:       nginx-deploy
   updatePolicy:
+   # updateMode options:
+    # "Off"     - VPA only recommends resources, does NOT apply them.
+    # "Initial" - VPA sets recommended resources at pod creation, no changes after.
+    # "Auto"    - VPA automatically updates resources and restarts pods as needed.
     updateMode: "Auto"
