@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-restart-policy
+spec:
+  #  restartPolicy value can have always, onfailure, never
+   restartPolicy: Always
+   terminationGracePeriodSeconds: 40
+   containers:
+     - name: nginx
+       image: nginx:latest
+      #  imagePullPolicy value can have always, ifnotpresent, never
+       imagePullPolicy: IfNotPresent
+       ports:
+       - containerPort: 80
