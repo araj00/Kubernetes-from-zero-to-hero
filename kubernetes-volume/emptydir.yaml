@@ -7,7 +7,14 @@ spec:
   - name: temp-storage
     emptyDir: {}
   containers:
-  - name:  emptydir-example
+  - name:  busybox-1
+    image: busybox
+    command: ["/bin/sh", "-c", "sleep 3600"]
+    volumeMounts:
+    - mountPath: /data
+      name: temp-storage
+
+  - name:  busybox-2
     image: busybox
     command: ["/bin/sh", "-c", "sleep 3600"]
     volumeMounts:
