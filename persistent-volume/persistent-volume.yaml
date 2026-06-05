@@ -1,0 +1,12 @@
+apiVersion: v1                       # Kubernetes API version
+kind: PersistentVolume              # Defines a PersistentVolume resource
+metadata:
+  name: example-pv                  # Unique name for the PV
+spec:
+  capacity:
+    storage: 5Gi                    # Total storage provided (5 GiB)
+  accessModes:
+    - ReadWriteOnce                # Volume can be mounted as read-write by a single node at a time
+  persistentVolumeReclaimPolicy: Retain  # Retain the volume and data even when the PVC is deleted
+  hostPath:
+    path: /mnt/data                # Uses a directory on the node (for demo purposes only)
