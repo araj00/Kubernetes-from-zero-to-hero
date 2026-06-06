@@ -1,0 +1,15 @@
+apiVersion: v1                       # Kubernetes API version
+kind: Pod                           # Defines a Pod resource
+metadata:
+  name: example-pod                 # Unique name for the Pod
+spec:
+  containers:
+    - name: nginx-container         # Name of the container
+      image: nginx                  # Container image to use
+      volumeMounts:
+        - mountPath: /usr/share/nginx/html  # Directory inside the container where the volume will be mounted
+          name: persistent-storage  # Logical name for the volume mount
+  volumes:
+    - name: persistent-storage      # Volume's name referenced above
+      persistentVolumeClaim:
+        claimName: example-pvc      # Bind this volume to the previously created PVC
