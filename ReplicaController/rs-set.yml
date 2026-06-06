@@ -16,6 +16,7 @@ spec:
   template:
     metadata:
       labels:
+      # whatever we should define in labels it should justify rules defined in selector otherwise it will throw error while creating replicaset. To check this, comment app:nginx line and run this config file
         app: nginx
         environment: development
     spec:
