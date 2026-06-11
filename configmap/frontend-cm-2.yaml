@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend-container
+        image: nginx
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+          readOnly: true
+      volumes:
+      - name: html-volume
+        configMap:
+          name: frontend-cm-2
+          # if we don't use items then all data will be mounted on a volume mount directory
+          items:
+          - key: index.html # The key in the ConfigMap to be used as a file
+            path: index.html # The filename that will be created inside the mount path
