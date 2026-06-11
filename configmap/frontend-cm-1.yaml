@@ -26,3 +26,5 @@ spec:
               configMapKeyRef:
                 name: frontend-cm
                 key: ENVIRONMENT
+
+#  Imperative method to create configmap:- kubectl create configmap frontend-cm --from-literal=APP=frontend --from-literal=ENVIRONMENT=production
