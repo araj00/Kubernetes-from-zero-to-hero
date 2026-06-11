@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend-container
+        image: nginx
+        env:
+          - name: APP
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-cm
+                key: APP
+          - name: ENVIRONMENT  # Another environment variable inside the container
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-cm
+                key: ENVIRONMENT
