@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-job  # Name of the Job resource.
+spec:
+  ttlSecondsAfterFinished: 60
+  # This field tells Kubernetes to automatically delete the Job object 60 seconds after it finishes (either success or failure).
+  # Useful for keeping the cluster clean and avoiding accumulation of completed Jobs.
+  completions: 2  
+  # Total number of successful Pod completions needed for the Job to succeed.
+  # - If set to 1: Only one Pod needs to complete successfully for the Job to finish.
+  # - If set to 2: Two Pods must each complete successfully (sequentially or in parallel, depending on 'parallelism').
+  parallelism: 2  
+  # Number of Pods that can run concurrently.
+  # - If parallelism is 2 and completions is 2, both Pods can run at the same time.
+  # - If parallelism is 1 and completions is 2, Pods will run one after another (sequentially).
+  backoffLimit: 4
+  # Specifies how many times Kubernetes should retry a failed Pod before considering the Job itself as failed.
+  # If the Pod fails 4 times, the Job will be marked as failed.
+  template:
+    spec:
+      containers:
+        - name: hello
+          image: busybox  # A minimal container image used to run small shell commands.
+          command: ["bin/sh", "-c", "echo Hello from the Job! && sleep 10"]
+          # Container command that prints a message and then sleeps for 10 seconds before exiting.
+      restartPolicy: Never
+      # Specifies that if a container inside the Pod fails, the kubelet will not restart the container.
+      # The Pod will transition to Failed status once the container exits with a non-zero (error) code.
+      # The Job controller, not the kubelet, handles retries by creating a new Pod according to the Job's backoffLimit policy.
+      # Pods are immutable objects; restartPolicy only governs container restarts within existing Pods:
+      # - restartPolicy: Always allows container restarts within a Pod (common in Deployments).
+      # - restartPolicy: Never ensures no container restarts; a new Pod is created by the Job controller if needed (common in Jobs).
