@@ -18,3 +18,4 @@
 # Labs:-
 
 1. [DownwardAPI lab](https://killercoda.com/cka-mock-practice/scenario/downward-api-env-resource) - Configure Downward API environment variables to expose container resource specifications to a sidecar monitoring container.
+2. [Exposing pod information through env](https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/)
