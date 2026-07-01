@@ -7,3 +7,9 @@
 - Kubernetes handles dynamic updates using **symlinks** to new file versions, but the application must **re-read the files** to detect changes.
 - When mounting individual keys using `subPath`, the file is **copied**, not symlinked, so updates to the ConfigMap or Secret **will not propagate**.
 - To enable live updates without restarting pods, prefer **volume mounts without `subPath`** and ensure the application supports **hot reloading** or use a **config-reloader**.
+
+Tip: Mounting ConfigMaps as files is perfect for shipping small static assets or config snippets without rebuilding images.
+
+## Labs:-
+
+- [Configmap as files](https://killercoda.com/cka-mock-practice/scenario/config-mount)
