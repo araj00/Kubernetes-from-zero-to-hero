@@ -13,3 +13,6 @@ Tip: Mounting ConfigMaps as files is perfect for shipping small static assets or
 ## Labs:-
 
 - [Configmap as files](https://killercoda.com/cka-mock-practice/scenario/config-mount)
+- [Configmap with initcontainer](https://killercoda.com/cka-mock-practice/scenario/init-container-one-piece)
+- [Configmap and Secret](https://killercoda.com/cka-mock-practice/scenario/config-secret)
+- [Mount Config Files and Readiness Probe](https://killercoda.com/cka-mock-practice/scenario/config-and-probes)
