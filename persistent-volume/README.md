@@ -28,3 +28,9 @@
 - Local volumes have restrictions: Pods are constrained to specific nodes
 - Volume lifecycle: PVC deletion behavior depends on persistentVolumeReclaimPolicy (Delete, Retain, Recycle)
 - Volume mounts: Each container can mount multiple volumes at different paths
+
+## Labs:-
+
+- [PersistentVolumeClaim with Dynamic Provisioning](https://killercoda.com/cka-mock-practice/scenario/PersistentVolumeClaim-Dynamic)
+- [PersistentVolumeClaim - Mount Storage to Nginx Deployment](https://killercoda.com/cka-mock-practice/scenario/PersistentVolumeClaim-Mount-Storage)
+- [Restore MySql with persistent data](https://killercoda.com/cka-mock-practice/scenario/restore-mysql-persistent-data)
