@@ -16,7 +16,7 @@ In Kubernetes, the securityContext allows you to fine-tune privileges and access
 ✅ = Supported  
 ❌ = Not supported
 
-### Pod-Level Fields (`spec.securityContext`)
+## Pod-Level Fields (`spec.securityContext`)
 
 * **`runAsUser`**: Sets the UID for all containers in the Pod. Example: `1000`. No username mapping is required inside the container.
 
@@ -36,7 +36,7 @@ In Kubernetes, the securityContext allows you to fine-tune privileges and access
 
 ---
 
-### Container-Level Fields (`spec.containers[].securityContext`)
+## Container-Level Fields (`spec.containers[].securityContext`)
 
 * **`allowPrivilegeEscalation`**: Prevents processes in the container from gaining additional privileges (e.g., via `setuid` binaries).
   In Linux, **privilege escalation** means a process can gain more powerful permissions than it started with — even if it didn’t start as root. This can happen through special mechanisms like **setuid binaries** (binaries that run with the file owner’s permissions).
@@ -52,3 +52,33 @@ In Kubernetes, the securityContext allows you to fine-tune privileges and access
 * **`readOnlyRootFilesystem`**: Mounts the container’s root filesystem as read-only. Prevents any write operations to system directories like `/`, `/etc`, `/var`, helping protect the container from tampering or accidental changes.
 
   > Recommended: Set to `true` for stateless containers or apps that don’t require root filesystem writes.
+
+## What Are Linux Capabilities?
+
+Instead of giving full root access to a container, Linux capabilities allow you to **drop unnecessary privileges** and optionally **add only the ones required**.
+
+This aligns with the **principle of least privilege**, helping reduce the attack surface and prevent containers from performing dangerous operations.
+
+---
+
+### Best Practice with Linux Capabilities
+
+By default, containers — even when not running as root — are granted a minimal set of Linux capabilities such as `CHOWN`, `SETUID`, `NET_BIND_SERVICE`, and `KILL` to enable essential operations like changing file ownership or binding to low-numbered ports.
+
+However, if you explicitly drop **all** capabilities using `capabilities.drop: ["ALL"]`, even these default privileges are removed. As a result, many standard operations will fail — demonstrating that simply running as root (UID 0) doesn't equate to full privilege without the necessary capabilities.
+
+> **Always tailor capabilities to your application's needs.** Start with none and add only what is absolutely required.
+
+
+---
+
+## Common Linux Capabilities
+
+| Capability     | Description                                                                                     |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| `NET_ADMIN`    | Modify network interfaces, routing tables, and firewall rules                                   |
+| `SYS_ADMIN`    | Very broad; includes mounting filesystems, changing kernel params, system configuration changes |
+| `SYS_TIME`     | Set system clock, modify hardware clock, manage time sync services (e.g., NTP)                  |
+| `CHOWN`        | Change file ownership using `chown`                                                             |
+| `SETUID`       | Change user ID of a running process                                                             |
+| `DAC_OVERRIDE` | Override standard file permission checks (Discretionary Access Control)                         |
