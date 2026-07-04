@@ -82,3 +82,7 @@ However, if you explicitly drop **all** capabilities using `capabilities.drop: [
 | `CHOWN`        | Change file ownership using `chown`                                                             |
 | `SETUID`       | Change user ID of a running process                                                             |
 | `DAC_OVERRIDE` | Override standard file permission checks (Discretionary Access Control)                         |
+
+## Labs:-
+
+- [Convert pod to deployment with securitycontext](https://killercoda.com/cka-mock-practice/scenario/convert-pod-to-deployment)
