@@ -1,0 +1,11 @@
+apiVersion: v2
+name: app1-chart
+description: A Helm chart to deploy nginx using NodePort service
+type: application
+version: 0.1.0
+appVersion: "1.22"
+keywords:
+  - nginx
+  - demo
+  - kubernetes
+  - helm
