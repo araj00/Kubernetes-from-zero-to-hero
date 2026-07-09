@@ -112,25 +112,25 @@ $
 ### Brace Expansion (`{}`)
 Brace expansion enables you to generate custom strings, file sequences, or complex batch folders out of a comma-separated list or a step range.
 
-#### Explicit Comma Lists:
-'''bash
+### Explicit Comma Lists:
+```bash
 $ touch memo{1,2,3,4,5}
 # Generates files: memo1, memo2, memo3, memo4, memo5
-'''
+```
 
-#### Cartesian Multiplication Combinations:
-'''bash
+### Cartesian Multiplication Combinations:
+```bash
 $ touch {John,Bill,Sally}-{Breakfast,Lunch,Dinner}
 # Generates 9 files matching all pair variations:
 # John-Breakfast, John-Lunch, John-Dinner, Bill-Breakfast... etc.
-'''
+```
 
-#### Range Sequences (`..`):
-'''bash
+### Range Sequences (`..`):
+```bash
 $ touch {a..f}{1..5}
 # Generates a matrix grid from a1 to f5 automatically:
 # a1 a2 a3 a4 a5 b1 b2... f5
-'''
+```
 
 ---
 
@@ -138,7 +138,7 @@ $ touch {a..f}{1..5}
 
 When you inspect a folder using the long format flag `ls -la`, Linux outputs a detailed breakdown of file records:
 
-'''text
+```text
 $ ls -la /home/joe
 total 158
 drwxrwxrwx 2 joe sales   4096 May 12 13:55 .
@@ -147,7 +147,7 @@ drwxr-xr-x 3 root root    4096 May 10 01:49 ..
 -rw-r--r-- 1 joe sales    124 May 10 01:50 .bashrc
 drw-r--r-- 1 joe sales   4096 May 10 01:50 .kde
 -rw-rw-r-- 1 joe sales 149872 May 11 22:49 letter
-'''
+```
 
 Here is what the 7 layout columns represent:
 
