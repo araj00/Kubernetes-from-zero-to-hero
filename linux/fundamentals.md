@@ -48,6 +48,8 @@ For a user named **jake** on a computer named **pine** with `/usr/share/` as the
 [jake@pine share]$
 ```
 
+---
+
 ## 🛠️ Managing Shells and Core Commands
 
 To try a different shell, simply type the name of that shell (assuming that they are installed on your system). Examples of alternative shells include:
@@ -82,6 +84,8 @@ For example, evaluating the following command will show both an aliased and file
 type -a ls
 ```
 
+---
+
 ## 🔄 Command Execution Order Priority
 
 When you type a command into the shell, it checks for its definition following a very specific, strict hierarchical order:
@@ -110,6 +114,8 @@ history 8
 !! # to execute previous command
 ```
 
+---
+
 ## 🔒 Security Best Practices for History Management
 
 ### ⚠️ NOTE ON SECURITY COMPLIANCE
@@ -124,4 +130,54 @@ For example, to forcefully kill an active shell environment possessing a Process
 
 ```bash
 kill -9 1234
+```
+
+### The Quick Distinction
+* **`HISTSIZE`** controls your **current active session** (Memory/RAM).
+* **`HISTFILESIZE`** controls the **saved history file** (Disk/Hard Drive).
+
+### 1. Detailed Feature Comparison
+
+| Feature | `HISTSIZE` | `HISTFILESIZE` |
+| :--- | :--- | :--- |
+| **Storage Medium** | Memory (RAM) | Hard Drive (Disk) |
+| **What it Limits** | The maximum number of commands cached in your **current active terminal session**. | The maximum number of lines contained in your **permanent history file** (usually `~/.bash_history`). |
+| **Enforcement Time** | Constantly enforced in real-time while your terminal is open. | Enforced when you log out, close a terminal cleanly, or manually flush history. |
+
+### Practical Configuration Scenarios
+Separating these two variables gives you finer control over system performance and storage:
+* **Performance Balance:** If you want a massive historical archive going back months but wish to save RAM on active terminal windows, you can set a smaller memory cache and a large file limit:
+    ```bash
+    HISTSIZE=1000
+    HISTFILESIZE=100000
+    ```
+* **Unlimited History:** Many developers prefer never losing a command. In modern versions of Bash, you can set both to a very large number, or leave them unset/empty to eliminate limits entirely.
+
+---
+
+## 2. What Happens When a Shell is Forcefully Killed?
+
+If your terminal session terminates abruptly (e.g., clicking the "X" on the window, an SSH connection dropping, or running a force-kill command like `kill -9 $$`), **only the history of that specific active session is lost.** Your past historical data is entirely safe.
+
+### Normal Exit Sequence
+When you exit a shell properly (typing `exit` or pressing `Ctrl+D`):
+1. The shell reads the commands cached in RAM (capped by `HISTSIZE`).
+2. It appends or overwrites those commands to your physical history file on the disk (e.g., `~/.bash_history`).
+3. It truncates the history file so its total line count doesn't exceed `HISTFILESIZE`.
+
+### Abrupt/Killed Exit Sequence
+When a shell process is suddenly killed:
+1. The termination prevents the shell from running its standard cleanup and save routines.
+2. The commands typed *only during that specific window* existed strictly in volatile RAM and are instantly lost.
+3. The physical `~/.bash_history` file on disk remains unmodified; **all history from prior, cleanly closed sessions remains safe.**
+
+---
+
+## 3. Configuration & Optimization
+
+### Checking Your Current Settings
+To check your system's current configurations, run the following commands in your terminal:
+```bash
+echo $HISTSIZE
+echo $HISTFILESIZE
 ```
