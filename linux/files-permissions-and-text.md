@@ -141,12 +141,16 @@ When you inspect a folder using the long format flag `ls -la`, Linux outputs a d
 ```text
 $ ls -la /home/joe
 total 158
-drwxrwxrwx 2 joe sales   4096 May 12 13:55 .
-drwxr-xr-x 3 root root    4096 May 10 01:49 ..
--rw------- 1 joe sales   2204 May 18 21:30 .bash_history
--rw-r--r-- 1 joe sales    124 May 10 01:50 .bashrc
-drw-r--r-- 1 joe sales   4096 May 10 01:50 .kde
--rw-rw-r-- 1 joe sales 149872 May 11 22:49 letter
+drwxrwxrwx 2   joe    sales   4096 May 12 13:55 .
+drwxr-xr-x 3   root    root   4096 May 10 01:49 ..
+-rw------- 1   joe    sales   2204 May 18 21:30 .bash_history
+-rw-r--r-- 1   joe    sales    124 May 10 01:50 .bashrc
+drw-r--r-- 1   joe    sales   4096 May 10 01:50 .kde
+-rw-rw-r-- 1   joe    sales 149872 May 11 22:49 letter
+
+  ^        ^    ^      ^       ^       ^           ^
+  |        |    |      |       |       |           |
+ col1     col2 col3   col4    col5    col6        col7
 ```
 
 Here is what the 7 layout columns represent:
