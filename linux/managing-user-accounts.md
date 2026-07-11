@@ -221,16 +221,16 @@ To assign a group as a supplementary group to an existing user, use the `usermod
 
 ---
 
-# Enterprise Linux: Access Control Lists (ACLs)
+## Enterprise Linux: Access Control Lists (ACLs)
 
 Standard Linux permissions (rwx) are often too restrictive for enterprise environments because they only allow one owner and one group per file. **Access Control Lists (ACLs)** solve this by allowing you to grant specific permissions to multiple users and groups without changing the file owner.
 
-## Why Use ACLs?
+### Why Use ACLs?
 * **Flexibility:** Grant permissions to specific users (e.g., `bill`) or multiple groups (e.g., `sales` and `marketing`) on a single file.
 * **Selective Sharing:** Share files without leaving them "wide open" (chmod 777).
 * **Inheritance:** Set default ACLs on directories so new files automatically inherit permissions.
 
-## Using `setfacl` and `getfacl`
+### Using `setfacl` and `getfacl`
 
 ### Viewing Permissions
 When a file has ACLs, a `+` symbol appears in the `ls -l` output:
@@ -247,12 +247,14 @@ The `setfacl` command is used to modify (-m) permissions:
 * **Grant a group Read/Write access:**
     setfacl -m g:sales:rw filename
 
-## The "Mask" Concept
+### The "Mask" Concept
 When you add an ACL, the group permission acts as a **mask**. Even if you grant an ACL user "Read/Write/Execute," the mask limits the maximum permission they can actually use. 
 
 *If the mask is set to 'r--', the ACL user will only be able to read the file, regardless of their own assigned permissions.*
 
-## Default (Inherited) ACLs
+Note: To set mask on acl file, just use "setfacl -m m::permissions filename"
+
+### Default (Inherited) ACLs
 To ensure all files created inside a directory automatically share the same permissions, use the **default (d:)** flag:
 
     # Set default ACL for the 'market' group
@@ -260,7 +262,7 @@ To ensure all files created inside a directory automatically share the same perm
 
 Any new file or sub-directory created inside `/tmp/mary/` will now automatically inherit these settings.
 
-## Enabling ACLs on Filesystems
+### Enabling ACLs on Filesystems
 ACLs must be enabled on the filesystem level. While modern systems (XFS, EXT4) often enable this by default, you may need to add it manually for older or custom partitions.
 
 ### Checking Current Support
@@ -279,6 +281,7 @@ ACLs must be enabled on the filesystem level. While modern systems (XFS, EXT4) o
 3.  **Implant in Superblock (alternative):**
     tune2fs -o acl /dev/sda1
 
+Note: mount command will only mount the filesystem temporarily 
 ---
 
 ## Adding Directories for Users to Collaborate
