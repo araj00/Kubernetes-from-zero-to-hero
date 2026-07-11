@@ -27,7 +27,6 @@ The `useradd` command is the primary tool for creating new user accounts.
 | `-f -number` | Set the number of days after a password expires until the account is permanently disabled. |
 | `-k skel_dir` | Set the skeleton directory containing initial configuration files and login scripts that should be copied to a new user's home directory |
 | `‐M` | Do not create the new user's home directory, even if the default behavior is set to create it. |
-| `‐n` | Turn off the default behavior of creating a new group that matches the name and user ID of the new user. |
 | `‐p passwd` | Set the password for the account you are adding. This must be an encrypted password. Instead of adding an encrypted password here, you can simply use the passwd user command later to add a password for user. (To generate an encrypted MD5 password, type openssl passwd.)|
 
 ---
@@ -82,6 +81,40 @@ This file manages group membership, enabling file sharing access control:
 * **1007**: Group ID (GID).
 * **(Empty space)**: List of additional users in this group.
 
+### Useradd Default Configuration Options
+
+Use the following options to modify the defaults for user creation. To set these, use the `-D` flag first, followed by the options you wish to change.
+
+#### **-b** `default_home`
+Set the default directory in which user home directories are created. 
+* **Example:** `-b /garage`
+* **Default:** Typically `/home`
+
+#### **-e** `default_expire_date`
+Set the default expiration date on which the user account is disabled. 
+* **Format:** `YYYY-MM-DD`
+* **Example:** `-e 2029-10-17`
+
+#### **-f** `default_inactive`
+Set the number of days after a password has expired before the account is disabled. 
+* **Example:** `-f 7` (disables the account 7 days after password expiration).
+
+#### **-g** `default_group`
+Set the default group in which new users will be placed. 
+* **Note:** Normally, `useradd` creates a new group with the same name and ID number as the user.
+* **Example:** `-g bears`
+
+#### **-s** `default_shell`
+Set the default shell for new users. 
+* **Example:** `-s /bin/sh` or `-s /bin/tcsh`
+
+### Usage Example
+To update the default home directory location to `/home/everyone` and the default shell to `/bin/tcsh`, run:
+
+`useradd -D -b /home/everyone -s /bin/tcsh`
+
+---
+
 ## Modifying Existing Users (`usermod`)
 
 If you need to change account parameters after a user is created, use `usermod`.
@@ -93,7 +126,11 @@ If you need to change account parameters after a user is created, use `usermod`.
 | `-G groups` | Sets new supplementary groups. |
 | `-a` | **Crucial:** Use with `-G` to *append* groups instead of replacing them. |
 | `-l newname` | Renames the user login. |
-| `-L / -U` | Locks or Unlocks the user account. |
+| `-d home_dir` | Change the home directory to use for the account. |
+| `-e YYYY-MM-DD` | Assign a new expiration date for the account in YYYY‐MM‐DD format. |
+| `‐f ‐1` | Change the number of days after a password expires until the account is permanently disabled. |
+| `-L / -U` | Locks or Unlocks the user account. You can lock the account by putting an exclamation point at the beginning of
+the encrypted password in /etc/shadow. |
 
 *Example: Adding supplementary groups to an existing user:*
     usermod -Ga sales,marketing chris
