@@ -20,9 +20,15 @@ The `useradd` command is the primary tool for creating new user accounts.
 | `-e YYYY-MM-DD` | Sets the account expiration date. |
 | `-g group` | Assigns the user to a primary group (must exist). |
 | `-G group1,group2` | Adds the user to multiple supplementary groups. |
-| `-m` | Creates the user's home directory (copies from `/etc/skel`). |
+| `-m` | Automatically creates the user's home directory (copies from `/etc/skel`). |
 | `-s shell` | Specifies the login shell (e.g., `/bin/bash` or `/bin/tcsh`). |
 | `-u UID` | Manually specifies the User ID number. |
+| `-o` | Use with ‐u uid to create a user account that has the same UID as another username. |
+| `-f -number` | Set the number of days after a password expires until the account is permanently disabled. |
+| `-k skel_dir` | Set the skeleton directory containing initial configuration files and login scripts that should be copied to a new user's home directory |
+| `‐M` | Do not create the new user's home directory, even if the default behavior is set to create it. |
+| `‐n` | Turn off the default behavior of creating a new group that matches the name and user ID of the new user. |
+| `‐p passwd` | Set the password for the account you are adding. This must be an encrypted password. Instead of adding an encrypted password here, you can simply use the passwd user command later to add a password for user. (To generate an encrypted MD5 password, type openssl passwd.)|
 
 ---
 
