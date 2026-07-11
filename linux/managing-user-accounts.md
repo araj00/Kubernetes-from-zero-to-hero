@@ -175,3 +175,137 @@ To assign a group as a supplementary group to an existing user, use the `usermod
     usermod -aG [groupname] [username]
 
 *(Remember the `-a` flag when using `-G` to append the group rather than replacing all existing supplementary groups.)*
+
+---
+
+# Enterprise Linux: Access Control Lists (ACLs)
+
+Standard Linux permissions (rwx) are often too restrictive for enterprise environments because they only allow one owner and one group per file. **Access Control Lists (ACLs)** solve this by allowing you to grant specific permissions to multiple users and groups without changing the file owner.
+
+## Why Use ACLs?
+* **Flexibility:** Grant permissions to specific users (e.g., `bill`) or multiple groups (e.g., `sales` and `marketing`) on a single file.
+* **Selective Sharing:** Share files without leaving them "wide open" (chmod 777).
+* **Inheritance:** Set default ACLs on directories so new files automatically inherit permissions.
+
+## Using `setfacl` and `getfacl`
+
+### Viewing Permissions
+When a file has ACLs, a `+` symbol appears in the `ls -l` output:
+    -rw-rw-r--+ 1 mary mary 0 Jan 21 09:27 memo.txt
+
+Use `getfacl` to see the full list:
+    getfacl /tmp/memo.txt
+
+### Setting Permissions
+The `setfacl` command is used to modify (-m) permissions:
+
+* **Grant a user Read/Write access:**
+    setfacl -m u:bill:rw filename
+* **Grant a group Read/Write access:**
+    setfacl -m g:sales:rw filename
+
+## The "Mask" Concept
+When you add an ACL, the group permission acts as a **mask**. Even if you grant an ACL user "Read/Write/Execute," the mask limits the maximum permission they can actually use. 
+
+*If the mask is set to 'r--', the ACL user will only be able to read the file, regardless of their own assigned permissions.*
+
+## Default (Inherited) ACLs
+To ensure all files created inside a directory automatically share the same permissions, use the **default (d:)** flag:
+
+    # Set default ACL for the 'market' group
+    setfacl -m d:g:market:rwx /tmp/mary/
+
+Any new file or sub-directory created inside `/tmp/mary/` will now automatically inherit these settings.
+
+## Enabling ACLs on Filesystems
+ACLs must be enabled on the filesystem level. While modern systems (XFS, EXT4) often enable this by default, you may need to add it manually for older or custom partitions.
+
+### Checking Current Support
+    # Check current mount options
+    mount | grep "/ "
+    tune2fs -l /dev/sda1 | grep "mount options"
+
+### Enabling ACLs Permanently
+1.  **Edit /etc/fstab:**
+    Add `acl` to the options column (the 4th field).
+    /dev/sda1  /var/stuff  ext4  defaults,acl  1  2
+
+2.  **Remount without rebooting:**
+    mount -o remount /dev/sda1
+
+3.  **Implant in Superblock (alternative):**
+    tune2fs -o acl /dev/sda1
+
+---
+
+## Adding Directories for Users to Collaborate
+
+A special set of three permission bits—often ignored by basic `chmod` commands—allows you to set special permissions on commands and directories. These bits are essential for creating collaborative workspaces.
+
+### Special Permission Bits
+You can set these bits using `chmod` along with standard read, write, and execute bits.
+- **Set user ID bit:** 4 (u+s)
+- **Set group ID bit:** 2 (g+s)
+- **Sticky bit:** 1 (o+t)
+
+### The Set UID and Set GID Bit Commands (Sidebar)
+* **Normal Execution:** When a user runs a command, it runs with that user's permissions.
+* **Set UID/GID Execution:** Commands with these bits set run with the permissions of the **owner** (Set UID) or the **group** (Set GID) assigned to the file, rather than the user running the command.
+* Example: `su` and `newgrp` use the Set UID bit to gain root permissions (after password verification). You can verify this by checking the `s` in the output of `ls /bin/su`.
+
+---
+
+## Creating Group Collaboration Directories (Set GID)
+
+When you create a Set GID directory, all files created within it are automatically assigned to the group of the directory, not the user's primary group.
+
+### Steps to create a collaborative directory for the "sales" group:
+
+1. **Create the group:**
+    groupadd -g 301 sales
+
+2. **Add users (e.g., mary):**
+    usermod -aG sales mary
+
+3. **Create the directory:**
+    mkdir /mnt/salestools
+
+4. **Assign the group:**
+    chgrp sales /mnt/salestools
+
+5. **Set permissions (2775):**
+    chmod 2775 /mnt/salestools
+    *(This enables Set GID (2), full rwx for user (7), rwx for group (7), and r-x (5) for others.)*
+
+6. **Verify:**
+    If mary creates a file in this directory, it will be assigned to the `sales` group, allowing all members of `sales` to read and write to it.
+
+---
+
+## Creating Restricted Deletion Directories (Sticky Bit)
+
+The **sticky bit** creates a restricted deletion directory. While users may have write access to the directory, they **cannot delete files owned by other users**. Only the root user or the owner of the specific file can delete it.
+
+### Example: The /tmp Directory
+The `/tmp` directory is a classic restricted deletion directory. Permissions typically appear as:
+    drwxrwxrwt. ... /tmp
+
+### Creating a Restricted Deletion Directory
+    [mary]$ mkdir /tmp/mystuff
+    [mary]$ chmod 1777 /tmp/mystuff
+    [mary]$ cp /etc/services /tmp/mystuff/
+    [mary]$ chmod 666 /tmp/mystuff/services
+
+With permissions set to `1777`, anyone can write to the `services` file, but only `mary` or `root` can delete the file from the directory.
+
+---
+
+## Centralizing User Accounts
+
+In enterprise environments, managing user accounts locally (`/etc/passwd` and `/etc/shadow`) is impractical. Centralized authentication allows a system to query a server for user credentials.
+
+### Authentication Domains
+The `authconfig` command supports several centralized databases:
+* **LDAP (Lightweight Directory Access Protocol):** An open standard protocol for directory services.
+* **Kerberos:** Provides secure client/server communications using an Authentication Server and Ticket-granting Server. Integrates well with services like ssh and ftp.
+* **Winbind:** Used to authenticate Linux users against a Microsoft Active Directory (AD) server.
