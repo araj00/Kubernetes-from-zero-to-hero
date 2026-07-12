@@ -67,6 +67,7 @@ An advanced, ncurses-based interactive visualizer. It provides color-coded threa
 #### Core Live Interactions:
 * `F6` (Sort By): Opens an interactive sidebar menu to select any performance column (e.g., `PRI`, `NI`, `PERCENT_CPU`, `PERCENT_MEM`) as the active sort index.
 * `F9` (Kill): Sends standard POSIX signals (`SIGTERM`, `SIGKILL`, `SIGHUP`) directly to the currently highlighted process row.
+* `kill -l`: lists down all the available signals used in kill command
 
 ### Production Incident: Triage of an Immediate CPU Spike
 1. **The Alert:** An automated notification indicates that a node hosting a production API has reached 99% CPU utilization.
