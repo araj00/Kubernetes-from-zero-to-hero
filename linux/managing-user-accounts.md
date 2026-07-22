@@ -129,8 +129,7 @@ If you need to change account parameters after a user is created, use `usermod`.
 | `-d home_dir` | Change the home directory to use for the account. |
 | `-e YYYY-MM-DD` | Assign a new expiration date for the account in YYYY‐MM‐DD format. |
 | `‐f ‐1` | Change the number of days after a password expires until the account is permanently disabled. |
-| `-L / -U` | Locks or Unlocks the user account. You can lock the account by putting an exclamation point at the beginning of
-the encrypted password in /etc/shadow. |
+| `-L / -U` | Locks or Unlocks the user account. You can lock the account by putting an exclamation point at the beginning of the encrypted password in /etc/shadow. |
 
 *Example: Adding supplementary groups to an existing user:*
     usermod -Ga sales,marketing chris
