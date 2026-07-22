@@ -192,10 +192,10 @@ If a user needs to act as a member of a group they belong to (or have permission
 
 **Example:-**
 ```bash
-    [sara]$ newgrp sales
-    [sara]$ touch file2
-    [sara]$ ls -l file2
-    -rw-rw-r--. 1 sara sales 0 Jan 18 22:23 file2
+[sara]$ newgrp sales
+[sara]$ touch file2
+[sara]$ ls -l file2
+-rw-rw-r--. 1 sara sales 0 Jan 18 22:23 file2
 ```
 *Tip: Root can set a group password (via `gpasswd`) allowing any user to join that group temporarily by providing the password.*
 
