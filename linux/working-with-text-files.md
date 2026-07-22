@@ -67,6 +67,8 @@ Vim allows complete file navigation directly from the home row of the keyboard, 
 * **`1G`** $\rightarrow$ Jump directly to the **first line** of the file.
 * **`[Number]G`** $\rightarrow$ Jump directly to a specific line number (e.g., `35G` navigates to line 35).
 
+    *Note: To show the number line in open vim files, just add set number in a file located at ~/.vimrc. After then, opening a file in vim will showcase the number line along with text.*
+
 ---
 
 ### 4. The Vim Grammar: Actions, Movements, and Multipliers
@@ -375,7 +377,9 @@ mdns 353/udp # Multicast DNS
 $ grep -vi udp /etc/services
 ```
 * **Recursive Search (`-r`):** Scans all files recursively within a target directory structure.
-* **Filename Isolation (`-l`):** Prints only the names of files containing the matching text pattern, rather than displaying the matching lines.
+* **Filename Isolation (`-l`):** Prints only the names of files containing the matching text pattern, rather than 
+displaying the matching lines.
+* **Filename Exclustion (`-L`):** Prints only the names of files not containing the matching text pattern.
 ```bash
 $ grep -rli peerdns /usr/share/doc/
 /usr/share/doc/dnsmasq-2.66/setup.html
