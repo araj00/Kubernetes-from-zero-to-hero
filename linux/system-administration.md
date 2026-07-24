@@ -1,4 +1,4 @@
-# Linux System Administration Basics
+# Linux System Administration
 
 A practical reference for getting comfortable with Linux system administration: gaining root access safely, finding admin commands and config files, reading logs, and inspecting hardware and kernel modules.
 
@@ -43,6 +43,8 @@ jane    ALL=(ALL)     NOPASSWD: ALL
 Once granted, a successful `sudo` password entry is typically cached for a few minutes (RHEL/Fedora) so you aren't re-prompted for every command in that window; Ubuntu can be configured differently via the `passwd_timeout` setting.
 
 > **Tip:** `sudo` is more auditable than `su` — it logs *which* user ran an administrative command, whereas `su` only shows that someone with the root password logged in.
+
+* [Understanding Sudoers file](https://heshandharmasena.medium.com/explain-sudoers-file-configuration-in-linux-1fe00f4d6159)   
 
 ## Where Admin Commands, Configs, and Logs Live
 
