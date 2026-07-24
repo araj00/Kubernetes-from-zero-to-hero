@@ -403,9 +403,9 @@ $ lastlog
 
 ---
 
-## Module 4: Linux User & Group Management
+## Linux User & Group Management
 
-### 4.1 Core Identity Files
+### Core Identity Files
 User and group configurations are managed locally through three critical text files:
 
 - `/etc/passwd`: Stores basic user account information.
