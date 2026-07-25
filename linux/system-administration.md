@@ -44,7 +44,7 @@ Once granted, a successful `sudo` password entry is typically cached for a few m
 
 > **Tip:** `sudo` is more auditable than `su` — it logs *which* user ran an administrative command, whereas `su` only shows that someone with the root password logged in.
 
-* [Understanding Sudoers file](https://heshandharmasena.medium.com/explain-sudoers-file-configuration-in-linux-1fe00f4d6159)   
+[Understanding Sudoers file](https://heshandharmasena.medium.com/explain-sudoers-file-configuration-in-linux-1fe00f4d6159)   
 
 ## Where Admin Commands, Configs, and Logs Live
 
@@ -69,6 +69,15 @@ journalctl -f
 
 # Show only boot-related messages
 journalctl -b
+
+# Show only kernel message from systemd service replacing dmesg utility for viewing kernel logs
+journalctl -k
+
+# Show tabular list of boot number relative to the current one
+journalctl --list-boots
+
+# Filter the logs based on its service unit
+journalctl -u {{service_unit_name like apache, boot-efi.mount etc}}
 ```
 
 Traditional plain-text logs are still common under **`/var/log`** (e.g., `messages`, `boot.log`), especially for services that write their own logs outside the journal.
